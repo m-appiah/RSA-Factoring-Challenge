@@ -2,10 +2,10 @@
 import sys
 
 ''' Function to factorize a number into pairs of factors and print to stdout'''
-def factorizeAndPrint(number):
+def rsa(number):
     for i in range(2, number // 2 + 1):
         if number % i == 0:
-            print(f"{number}={number // i}*{i}")
+            print("{}={}*{}".format(number, number // i, i))
             break
 
 def main(input_file):
@@ -15,15 +15,15 @@ def main(input_file):
                 number = int(line.strip())
 
                 ''' Factorize the number and print each factorization to stdout'''
-                factorizeAndPrint(number)
+                rsa(number)
     except FileNotFoundError:
         print("Input file not found.")
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print("An error occurred: {}".format(str(e)))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python factors.py <input_file>")
+        print("Usage: python factors <input_file>")
     else:
         input_file = sys.argv[1]
         main(input_file)
