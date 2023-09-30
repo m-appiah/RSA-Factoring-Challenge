@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 
+
 def prime_factors(number):
     factors = []
     divisor = 2
@@ -12,6 +13,8 @@ def prime_factors(number):
         divisor += 1
 
     return factors
+
+
 def main(input_file):
     try:
         with open(input_file, 'r') as infile:
@@ -22,11 +25,15 @@ def main(input_file):
                     p, q = factors
                     print("{}={}*{}".format(number, p, q))
                 else:
-                    print("{} is not a product of exactly two prime numbers.".format(number))
+                    print(
+                            "{} is not a product of exactly two prime numbers."
+                            .format(number)
+                            )
     except FileNotFoundError:
         print("Input file not found.")
     except Exception as e:
         print("An error occurred: {}".format(str(e)))
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
