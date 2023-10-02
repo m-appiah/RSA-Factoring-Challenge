@@ -1,35 +1,76 @@
 #!/usr/bin/python3
 
 import sys
+import math
+import random
+
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+
+def pollard_rho(n):
+    def f(x):
+        return (x ** 2 + 1) % n
+
+    x, y, d = 2, 2, 1
+    while d == 1:
+        x = f(x)
+        y = f(f(y))
+        d = gcd(abs(x - y), n)
+    return d
 
 
 def prime_factors(number):
     factors = []
-    divisor = 2
-
+    while number % 2 == 0:
+        factors.append(2)
+        number //= 2
     while number > 1:
-        while number % divisor == 0:
-            factors.append(divisor)
-            number //= divisor
-        divisor += 1
-
+        if is_prime(number):
+            factors.append(number)
+            break
+        factor = pollard_rho(number)
+        factors.append(factor)
+        number //= factor
     return factors
+
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
 
 
 def main(input_file):
     try:
         with open(input_file, 'r') as infile:
             for line in infile:
-                number = int(line.strip())
+                line = line.strip()
+                if not line.isdigit():
+                    print("Invalid input: '{}' is not a valid.".format(line))
+                    continue
+                number = int(line)
+                if number == 0:
+                    print("Zero is not a product of prime numbers.")
+                    continue
                 factors = prime_factors(number)
                 if len(factors) == 2:
                     p, q = factors
                     print("{}={}*{}".format(number, p, q))
                 else:
-                    print(
-                            "{} is not a product of exactly two prime numbers."
-                            .format(number)
-                            )
+                    print("{} is not a product of prime num.".format(number))
     except FileNotFoundError:
         print("Input file not found.")
     except Exception as e:
